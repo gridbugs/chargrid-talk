@@ -46,10 +46,10 @@ fn main() {
     match version {
         0 => context.run(app_hello::App::new()),
         1 => context.run(app_game_no_menu::App::new()),
-        3 => context.run(app_game_component::App::new()),
-        4 => context.run(app_game_menu::App::new()),
-        5 => context.run(app_game_menu_cf::app()),
-        6 => context.run(app_game_menu_cf_boxed::app()),
+        2 => context.run(app_game_component::App::new()),
+        3 => context.run(app_game_menu::App::new()),
+        4 => context.run(app_game_menu_cf::app()),
+        5 => context.run(app_game_menu_cf_boxed::app()),
         _ => panic!("unexpected version"),
     }
 }
