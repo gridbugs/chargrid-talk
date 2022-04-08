@@ -1,0 +1,9 @@
+[package]
+name = "chargrid-talk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chargrid_core = "0.1"
+chargrid_runtime = "0.1"
+chargrid_wgpu = "0.2"
