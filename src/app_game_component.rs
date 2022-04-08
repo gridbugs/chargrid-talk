@@ -3,7 +3,6 @@ use crate::{
     game_component::{GameComponent, GameOver},
 };
 use chargrid_core::prelude::*;
-use chargrid_runtime::app;
 
 pub struct App {
     game: Game,

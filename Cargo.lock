@@ -183,7 +183,6 @@ name = "chargrid-talk"
 version = "0.1.0"
 dependencies = [
  "chargrid_core",
- "chargrid_runtime",
  "chargrid_wgpu",
  "direction",
  "grid_2d",

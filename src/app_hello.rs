@@ -1,5 +1,4 @@
 use chargrid_core::prelude::*;
-use chargrid_runtime::app;
 
 pub struct App {
     text: String,

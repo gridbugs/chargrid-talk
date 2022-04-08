@@ -1,6 +1,5 @@
 use crate::game::Game;
 use chargrid_core::prelude::*;
-use chargrid_runtime::app;
 use direction::CardinalDirection;
 
 pub struct App {

@@ -4,7 +4,6 @@ use crate::{
     main_menu::*,
 };
 use chargrid_core::prelude::*;
-use chargrid_runtime::app;
 
 /// Type for keeping track of whether the game or the menu is currently being displayed
 enum CurrentComponent {
