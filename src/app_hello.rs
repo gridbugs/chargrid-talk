@@ -6,11 +6,15 @@ pub struct App {
 }
 
 impl App {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self {
             text: "Hello, FP-Syd!".to_string(),
         }
     }
+}
+
+pub fn app() -> App {
+    App::new()
 }
 
 impl Component for App {

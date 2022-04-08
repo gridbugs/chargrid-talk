@@ -2,10 +2,13 @@ const CELL_SIZE: f64 = 48.;
 
 mod app_game_component;
 mod app_game_menu;
+mod app_game_menu_cf;
 mod app_game_no_menu;
 mod app_hello;
+mod cf;
 mod game;
 mod game_component;
+mod main_menu;
 mod menu;
 
 fn main() {
@@ -34,5 +37,5 @@ fn main() {
         force_secondary_adapter: false,
     });
 
-    context.run(app_game_menu::App::new());
+    context.run(app_game_menu_cf::app());
 }

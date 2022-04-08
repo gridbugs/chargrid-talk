@@ -13,6 +13,10 @@ impl App {
     }
 }
 
+pub fn app() -> App {
+    App::new()
+}
+
 impl Component for App {
     type Output = app::Output;
     type State = ();

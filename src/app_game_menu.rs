@@ -1,23 +1,10 @@
-use crate::{game::Game, game_component::GameComponent, menu::Menu};
+use crate::{
+    game::Game,
+    game_component::{GameComponent, GameOver},
+    main_menu::*,
+};
 use chargrid_core::prelude::*;
 use chargrid_runtime::app;
-
-#[derive(Clone, Copy)]
-enum MenuItem {
-    Resume,
-    NewGame,
-    Quit,
-}
-
-type MainMenu = Menu<MenuItem>;
-
-fn main_menu() -> Menu<MenuItem> {
-    Menu::new(vec![
-        ("Resume".to_string(), MenuItem::Resume),
-        ("New Game".to_string(), MenuItem::NewGame),
-        ("Quit".to_string(), MenuItem::Quit),
-    ])
-}
 
 enum CurrentComponent {
     Game(GameComponent),
@@ -30,12 +17,16 @@ pub struct App {
 }
 
 impl App {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self {
             current_component: CurrentComponent::Game(GameComponent),
             game: Game::new(),
         }
     }
+}
+
+pub fn app() -> App {
+    App::new()
 }
 
 impl Component for App {
@@ -81,7 +72,9 @@ impl Component for App {
                     self.current_component = CurrentComponent::MainMenu(main_menu());
                     return None;
                 }
-                game_component.update(&mut self.game, ctx, event)
+                if let Some(GameOver) = game_component.update(&mut self.game, ctx, event) {
+                    return Some(app::Exit);
+                }
             }
         }
         None

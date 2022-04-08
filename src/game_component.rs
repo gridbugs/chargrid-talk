@@ -3,9 +3,10 @@ use chargrid_core::prelude::*;
 use direction::CardinalDirection;
 
 pub struct GameComponent;
+pub struct GameOver;
 
 impl Component for GameComponent {
-    type Output = ();
+    type Output = Option<GameOver>;
     type State = Game;
 
     fn render(&self, game: &Self::State, ctx: Ctx, fb: &mut FrameBuffer) {
@@ -22,6 +23,7 @@ impl Component for GameComponent {
                 _ => (),
             }
         }
+        None
     }
 
     fn size(&self, _: &Self::State, ctx: Ctx) -> Size {

@@ -1,4 +1,7 @@
-use crate::{game::Game, game_component::GameComponent};
+use crate::{
+    game::Game,
+    game_component::{GameComponent, GameOver},
+};
 use chargrid_core::prelude::*;
 use chargrid_runtime::app;
 
@@ -7,9 +10,13 @@ pub struct App {
 }
 
 impl App {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self { game: Game::new() }
     }
+}
+
+pub fn app() -> App {
+    App::new()
 }
 
 impl Component for App {
@@ -28,7 +35,9 @@ impl Component for App {
                 _ => (),
             }
         }
-        GameComponent.update(&mut self.game, ctx, event);
+        if let Some(GameOver) = GameComponent.update(&mut self.game, ctx, event) {
+            return Some(app::Exit);
+        }
         None
     }
 
