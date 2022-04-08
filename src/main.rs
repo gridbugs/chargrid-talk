@@ -25,7 +25,7 @@ fn main() {
             normal: include_bytes!("./fonts/PxPlus_IBM_CGAthin-custom.ttf").to_vec(),
             bold: include_bytes!("./fonts/PxPlus_IBM_CGA-custom.ttf").to_vec(),
         },
-        title: "Hello Chargrid".to_string(),
+        title: "FP-Syd Talk".to_string(),
         window_dimensions_px: Dimensions {
             width: 768.,
             height: 768.,
