@@ -1,8 +1,12 @@
 const CELL_SIZE: f64 = 48.;
 
+mod app_game_component;
+mod app_game_menu;
 mod app_game_no_menu;
 mod app_hello;
 mod game;
+mod game_component;
+mod menu;
 
 fn main() {
     use chargrid_wgpu::*;
@@ -30,5 +34,5 @@ fn main() {
         force_secondary_adapter: false,
     });
 
-    context.run(app_hello::App::new());
+    context.run(app_game_menu::App::new());
 }
