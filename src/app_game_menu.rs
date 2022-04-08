@@ -6,6 +6,7 @@ use crate::{
 use chargrid_core::prelude::*;
 use chargrid_runtime::app;
 
+/// Type for keeping track of whether the game or the menu is currently being displayed
 enum CurrentComponent {
     Game(GameComponent),
     MainMenu(MainMenu),
@@ -17,16 +18,12 @@ pub struct App {
 }
 
 impl App {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             current_component: CurrentComponent::Game(GameComponent),
             game: Game::new(),
         }
     }
-}
-
-pub fn app() -> App {
-    App::new()
 }
 
 impl Component for App {
@@ -35,6 +32,7 @@ impl Component for App {
 
     fn render(&self, &(): &Self::State, ctx: Ctx, fb: &mut FrameBuffer) {
         fb.clear();
+        // Only render the current component
         match &self.current_component {
             CurrentComponent::MainMenu(menu) => menu.render(&(), ctx, fb),
             CurrentComponent::Game(game_component) => game_component.render(&self.game, ctx, fb),
@@ -48,6 +46,7 @@ impl Component for App {
                 _ => (),
             }
         }
+        // State-machine hell!
         match &mut self.current_component {
             CurrentComponent::MainMenu(menu) => {
                 if event.is_escape() {

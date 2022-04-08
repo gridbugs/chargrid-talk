@@ -6,10 +6,8 @@ use crate::{
 };
 use chargrid_core::prelude::*;
 
-fn game_component() -> BoxedCF<Option<GameOver>, Game> {
-    boxed_cf(GameComponent)
-}
-
+/// Run the main menu, applying the chosed menu item (if any) to the game state. Yields
+/// `Some(Some(app::Exit))` if "Quit" was chosen.
 fn main_menu_component() -> BoxedCF<Option<Option<app::Exit>>, Game> {
     boxed_cf(main_menu())
         .ignore_state()
@@ -26,10 +24,13 @@ fn main_menu_component() -> BoxedCF<Option<Option<app::Exit>>, Game> {
 
 pub fn app() -> BoxedCF<app::Output, ()> {
     loop_unit(|| {
-        game_component()
-            .catch_escape()
+        boxed_cf(GameComponent) // run the game...
+            .catch_escape() // ...until escape is pressed
             .and_then(|or_escape| match or_escape {
+                // Exit the program when the game is over
                 Ok(GameOver) => val(LoopControl::Break(app::Exit)),
+
+                // Open the menu when escape is pressed
                 Err(Escape) => main_menu_component().map(|maybe_exit| match maybe_exit {
                     None => LoopControl::Continue(()),
                     Some(app::Exit) => LoopControl::Break(app::Exit),

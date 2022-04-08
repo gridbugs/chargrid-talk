@@ -18,6 +18,7 @@ pub struct Game {
 }
 
 impl Game {
+    /// Return a new randomly-initialized game
     pub fn new() -> Self {
         let size = Size::new(16, 16);
         let rng = Isaac64Rng::from_entropy();
@@ -32,6 +33,7 @@ impl Game {
         s
     }
 
+    /// Render the current game state to a frame buffer
     pub fn render(&self, ctx: Ctx, fb: &mut FrameBuffer) {
         for (coord, cell) in self.world.enumerate() {
             let render_cell = if coord == self.player_coord {
@@ -57,6 +59,7 @@ impl Game {
         }
     }
 
+    /// Update the game state after moving the player one position in the given direction
     pub fn player_walk(&mut self, direction: CardinalDirection) {
         let dest_coord = self.player_coord + direction.coord();
         if let Some(&dest_cell) = self.world.get(dest_coord) {

@@ -10,13 +10,9 @@ pub struct App {
 }
 
 impl App {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self { game: Game::new() }
     }
-}
-
-pub fn app() -> App {
-    App::new()
 }
 
 impl Component for App {
