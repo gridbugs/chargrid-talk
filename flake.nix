@@ -23,12 +23,6 @@
       {
         devShell = mkShell rec {
           buildInputs = [
-            # General C Compiler/Linker/Tools
-            lld
-            clang
-            pkg-config
-            openssl
-
             # Rust Compiler
             (rust-bin.stable.latest.default.override {
               extensions = [ "rust-src" "rust-analysis" ];
@@ -37,11 +31,7 @@
             rust-analyzer
             cargo-watch
 
-            # Graphics and Audio Dependencies
-            alsaLib
-            libao
-            openal
-            libpulseaudio
+            # Graphics Dependencies
             udev
             xorg.libX11
             xorg.libXcursor
@@ -49,12 +39,6 @@
             xorg.libXi
             vulkan-loader
             vulkan-tools
-            libGL
-            bzip2
-
-            # JS/Wasm Deps
-            nodejs-17_x
-            wasm-pack
           ];
 
           # Allows rust-analyzer to find the rust source

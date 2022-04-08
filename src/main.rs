@@ -1,6 +1,8 @@
-const CELL_SIZE: f64 = 12.;
+const CELL_SIZE: f64 = 48.;
 
-mod app;
+mod app_game_no_menu;
+mod app_hello;
+mod game;
 
 fn main() {
     use chargrid_wgpu::*;
@@ -11,8 +13,8 @@ fn main() {
         },
         title: "Hello Chargrid".to_string(),
         window_dimensions_px: Dimensions {
-            width: 960.,
-            height: 720.,
+            width: 768.,
+            height: 768.,
         },
         cell_dimensions_px: Dimensions {
             width: CELL_SIZE,
@@ -27,5 +29,6 @@ fn main() {
         resizable: false,
         force_secondary_adapter: false,
     });
-    context.run(app::App);
+
+    context.run(app_hello::App::new());
 }
