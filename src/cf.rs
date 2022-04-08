@@ -1,7 +1,8 @@
 use chargrid_core::prelude::*;
 use std::marker::PhantomData;
 
-/// A wrapper of a `Component` implementation which provides additional methods
+/// A wrapper of a `Component` implementation which provides additional methods.
+/// CF stands for "Control Flow".
 pub struct CF<C: Component>(C);
 
 /// Constructor for CF
