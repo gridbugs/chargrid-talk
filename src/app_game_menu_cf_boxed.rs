@@ -6,13 +6,11 @@ use crate::{
 };
 use chargrid_core::prelude::*;
 
-type AppCF<T> = BoxedCF<Option<T>, Game>;
-
-fn game_component() -> AppCF<GameOver> {
+fn game_component() -> BoxedCF<Option<GameOver>, Game> {
     boxed_cf(GameComponent)
 }
 
-fn main_menu_component() -> AppCF<Option<app::Exit>> {
+fn main_menu_component() -> BoxedCF<Option<Option<app::Exit>>, Game> {
     boxed_cf(main_menu())
         .ignore_state()
         .catch_escape()

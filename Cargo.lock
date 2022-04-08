@@ -187,6 +187,7 @@ dependencies = [
  "chargrid_wgpu",
  "direction",
  "grid_2d",
+ "meap",
  "rand",
  "rand_isaac",
 ]
@@ -835,6 +836,12 @@ checksum = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "meap"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "35d8b89cd0fdfe8f5e949ce92d26a5d18bad373053c43f1f6d9fecdab66d8b45"
 
 [[package]]
 name = "memchr"

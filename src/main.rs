@@ -1,3 +1,6 @@
+use chargrid_wgpu::*;
+use meap::Parser;
+
 const CELL_SIZE: f64 = 48.;
 
 mod app_game_component;
@@ -14,7 +17,9 @@ mod main_menu;
 mod menu;
 
 fn main() {
-    use chargrid_wgpu::*;
+    let version = meap::prelude::pos_req::<u8>("which version to run")
+        .with_help_default()
+        .parse_env_or_exit();
     let context = Context::new(Config {
         font_bytes: FontBytes {
             normal: include_bytes!("./fonts/PxPlus_IBM_CGAthin-custom.ttf").to_vec(),
@@ -38,6 +43,13 @@ fn main() {
         resizable: false,
         force_secondary_adapter: false,
     });
-
-    context.run(app_game_menu_cf_boxed::app());
+    match version {
+        0 => context.run(app_hello::app()),
+        1 => context.run(app_game_no_menu::app()),
+        3 => context.run(app_game_component::app()),
+        4 => context.run(app_game_menu::app()),
+        5 => context.run(app_game_menu_cf::app()),
+        6 => context.run(app_game_menu_cf_boxed::app()),
+        _ => panic!("unexpected version"),
+    }
 }
