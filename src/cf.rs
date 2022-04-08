@@ -1,8 +1,10 @@
 use chargrid_core::prelude::*;
 use std::marker::PhantomData;
 
+/// A wrapper of a `Component` implementation which provides additional methods
 pub struct CF<C: Component>(C);
 
+/// Constructor for CF
 pub fn cf<C: Component>(component: C) -> CF<C> {
     CF(component)
 }
@@ -24,10 +26,13 @@ impl<C: Component> Component for CF<C> {
 }
 
 impl<T, C: Component<Output = Option<T>>> CF<C> {
+    /// Decorator that intercepts "escape" key press events
     pub fn catch_escape(self) -> CF<CatchEscape<C>> {
         cf(CatchEscape(self.0))
     }
 
+    /// Decorator that calls a provided function on the contents of all the `Some(_)` values
+    /// yielded by this component, yielding the result of the provided function
     pub fn map<U, F>(self, f: F) -> CF<Map<C, F>>
     where
         F: FnOnce(T) -> U,
@@ -38,6 +43,9 @@ impl<T, C: Component<Output = Option<T>>> CF<C> {
         })
     }
 
+    /// Decorator that calls a provided function on the contents of the first `Some(_)` value
+    /// yielded by this component. The provided function returns a component which is run
+    /// afterwards. This allows an arbitrary number of components to be sequenced.
     pub fn and_then<U, D, F>(self, f: F) -> CF<AndThen<C, D, F>>
     where
         D: Component<Output = Option<U>, State = C::State>,
@@ -51,6 +59,7 @@ impl<T, C: Component<Output = Option<T>>> CF<C> {
 }
 
 impl<C: Component<Output = app::Output>> CF<C> {
+    /// Decorator that intercepts window closed events
     pub fn exit_on_close(self) -> CF<ExitOnClose<C>> {
         cf(ExitOnClose(self.0))
     }
@@ -60,6 +69,9 @@ impl<C: Component> CF<C>
 where
     C::State: Sized,
 {
+    /// Takes a value whose type matches the external state type for this component, and returns a
+    /// new component with no external state and which contains the provided value as part of its
+    /// internal state
     pub fn with_state(self, state: C::State) -> CF<WithState<C>> {
         cf(WithState {
             component: self.0,
@@ -69,12 +81,16 @@ where
 }
 
 impl<C: Component> CF<C> {
+    /// Decorator that clears the frame buffer at the beginning of each frame
     pub fn clear_each_frame(self) -> CF<ClearEachFrame<C>> {
         cf(ClearEachFrame(self.0))
     }
 }
 
 impl<C: Component<State = ()>> CF<C> {
+    /// May only be called on a component with no external state, and returns a new component with
+    /// an external state of the annotated type. The resulting component will still ignore the
+    /// state argument passed to it.
     pub fn ignore_state<S>(self) -> CF<IgnoreState<S, C>> {
         cf(IgnoreState {
             state: PhantomData,
@@ -159,6 +175,12 @@ pub struct LoopUnit<C, F> {
     component: C,
     f: F,
 }
+
+/// Takes a function returning a `Component`. When this component yields a
+/// `Some(LoopControl::Continue(_))` value, the component is replaced by the result of invoking the
+/// function again. When this component yields a `Some(LoopControl::Break(X))` value, the "outer"
+/// component (ie. the one originally returned by `loop_unit`) yields `Some(X)` with the
+/// expectation that this be interpreted as the termination of the loop.
 pub fn loop_unit<Br, C, F>(mut f: F) -> CF<LoopUnit<C, F>>
 where
     C: Component<Output = Option<LoopControl<(), Br>>>,
@@ -205,9 +227,13 @@ where
 }
 
 pub struct Val<T: Clone>(pub T);
+
+/// Takes a value `x` and returns a component which yields `Some(x.clone())` each time it is
+/// updated.
 pub fn val<S, T: Clone>(t: T) -> CF<IgnoreState<S, Val<T>>> {
     cf(Val(t)).ignore_state()
 }
+
 impl<T: Clone> Component for Val<T> {
     type Output = Option<T>;
     type State = ();
@@ -409,6 +435,10 @@ pub struct OnState<S, T, F> {
     output: PhantomData<T>,
     f: Option<F>,
 }
+
+/// Returns a component which performs a side effect encapsulated by a provided function which is
+/// invoked on the component's state. This component will yield the value returned by the provided
+/// function.
 pub fn on_state<S, T, F>(f: F) -> CF<OnState<S, T, F>>
 where
     F: FnOnce(&mut S) -> T,
