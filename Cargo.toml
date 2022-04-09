@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 chargrid_core = "0.1"
 chargrid_wgpu = "0.2"
+chargrid_ansi_terminal = "0.3"
 grid_2d = "0.15"
 direction = "0.18"
 rand = "0.8"
