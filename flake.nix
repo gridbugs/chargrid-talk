@@ -30,6 +30,7 @@
             })
             rust-analyzer
             cargo-watch
+            cargo-outdated
 
             # Graphics Dependencies
             udev
@@ -39,6 +40,11 @@
             xorg.libXi
             vulkan-loader
             vulkan-tools
+
+            # Build tools
+            cmake
+            pkg-config
+            fontconfig
           ];
 
           # Allows rust-analyzer to find the rust source
