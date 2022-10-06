@@ -7,7 +7,7 @@ pub struct App {
 impl App {
     pub fn new() -> Self {
         Self {
-            text: "Hello, FP-Syd!".to_string(),
+            text: "Hello, World!".to_string(),
         }
     }
 }
